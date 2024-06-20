@@ -1,0 +1,11 @@
+ID,Skills,Location,Age,Experience,ExpectedSalary
+Alice,"JavaScript,React",New York,30,5,60000
+Bob,"Python,Django",San Francisco,28,3,70000
+Charlie,"Java,Spring",New York,35,10,90000
+David,"JavaScript,Node.js",Los Angeles,26,2,55000
+Eve,"Ruby,Rails",San Francisco,29,4,65000
+Frank,"C#,.NET",Texas,32,6,80000
+Grace,"PHP,Laravel",Florida,27,3,60000
+Henry,"Python,Flask",New York,34,8,85000
+Ivy,"Java,Spring",San Francisco,31,7,90000
+Jack,"JavaScript,Angular",Texas,29,5,70000

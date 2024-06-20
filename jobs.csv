@@ -1,0 +1,11 @@
+ID,Skills,Location,Experience,Budget,Vacancies
+Google - Web Developer,"JavaScript,React",New York,4,65000,2
+Facebook - Python Developer,"Python,Django",San Francisco,3,75000,1
+Amazon - Java Developer,"Java,Spring",New York,7,85000,1
+Netflix - Node.js Developer,"JavaScript,Node.js",Los Angeles,2,60000,1
+Twitter - Ruby on Rails Developer,"Ruby,Rails",San Francisco,4,70000,1
+Microsoft - C#/.NET Developer,"C#,.NET",Texas,5,80000,1
+Uber - PHP/Laravel Developer,"PHP,Laravel",Florida,3,65000,1
+Airbnb - Python/Flask Developer,"Python,Flask",New York,7,90000,1
+Salesforce - Java/Spring Developer,"Java,Spring",San Francisco,8,95000,1
+Tesla - JavaScript/Angular Developer,"JavaScript,Angular",Texas,5,75000,1

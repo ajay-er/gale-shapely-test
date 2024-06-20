@@ -1,8 +1,12 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
+	"os"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 // Employee struct represents an employee
@@ -139,34 +143,84 @@ func intersect(slice1, slice2 []string) []string {
 
 	return intersection
 }
+func readEmployees(filename string) ([]Employee, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
 
-func main() {
-	// Original datasets
-	employees := []Employee{
-		{ID: "Alice", Skills: []string{"JavaScript", "React"}, Location: "New York", Age: 30, Experience: 5, ExpectedSalary: 60000},
-		{ID: "Bob", Skills: []string{"Python", "Django"}, Location: "San Francisco", Age: 28, Experience: 3, ExpectedSalary: 70000},
-		{ID: "Charlie", Skills: []string{"Java", "Spring"}, Location: "New York", Age: 35, Experience: 10, ExpectedSalary: 90000},
-		{ID: "David", Skills: []string{"JavaScript", "Node.js"}, Location: "Los Angeles", Age: 26, Experience: 2, ExpectedSalary: 55000},
-		{ID: "Eve", Skills: []string{"Ruby", "Rails"}, Location: "San Francisco", Age: 29, Experience: 4, ExpectedSalary: 65000},
-		{ID: "Frank", Skills: []string{"C#", ".NET"}, Location: "Texas", Age: 32, Experience: 6, ExpectedSalary: 80000},
-		{ID: "Grace", Skills: []string{"PHP", "Laravel"}, Location: "Florida", Age: 27, Experience: 3, ExpectedSalary: 60000},
-		{ID: "Henry", Skills: []string{"Python", "Flask"}, Location: "New York", Age: 34, Experience: 8, ExpectedSalary: 85000},
-		{ID: "Ivy", Skills: []string{"Java", "Spring"}, Location: "San Francisco", Age: 31, Experience: 7, ExpectedSalary: 90000},
-		{ID: "Jack", Skills: []string{"JavaScript", "Angular"}, Location: "Texas", Age: 29, Experience: 5, ExpectedSalary: 70000},
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = -1
+	records, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
 	}
 
-	jobs := []Job{
-		{ID: "Google - Web Developer", Skills: []string{"JavaScript", "React"}, Location: "New York", Experience: 4, Budget: 65000, Vacancies: 2},
-		{ID: "Facebook - Python Developer", Skills: []string{"Python", "Django"}, Location: "San Francisco", Experience: 3, Budget: 75000, Vacancies: 1},
-		{ID: "Amazon - Java Developer", Skills: []string{"Java", "Spring"}, Location: "New York", Experience: 7, Budget: 85000, Vacancies: 1},
-		{ID: "Netflix - Node.js Developer", Skills: []string{"JavaScript", "Node.js"}, Location: "Los Angeles", Experience: 2, Budget: 60000, Vacancies: 1},
-		{ID: "Twitter - Ruby on Rails Developer", Skills: []string{"Ruby", "Rails"}, Location: "San Francisco", Experience: 4, Budget: 70000, Vacancies: 1},
-		{ID: "Microsoft - C#/.NET Developer", Skills: []string{"C#", ".NET"}, Location: "Texas", Experience: 5, Budget: 80000, Vacancies: 1},
-		{ID: "Uber - PHP/Laravel Developer", Skills: []string{"PHP", "Laravel"}, Location: "Florida", Experience: 3, Budget: 65000, Vacancies: 1},
-		{ID: "Airbnb - Python/Flask Developer", Skills: []string{"Python", "Flask"}, Location: "New York", Experience: 7, Budget: 90000, Vacancies: 1},
-		{ID: "Salesforce - Java/Spring Developer", Skills: []string{"Java", "Spring"}, Location: "San Francisco", Experience: 8, Budget: 95000, Vacancies: 1},
-		{ID: "Tesla - JavaScript/Angular Developer", Skills: []string{"JavaScript", "Angular"}, Location: "Texas", Experience: 5, Budget: 75000, Vacancies: 1},
-	} 
+	var employees []Employee
+	for _, record := range records[1:] {
+		age, _ := strconv.Atoi(record[3])
+		experience, _ := strconv.Atoi(record[4])
+		expectedSalary, _ := strconv.Atoi(record[5])
+		employee := Employee{
+			ID:             record[0],
+			Skills:         strings.Split(record[1], ","),
+			Location:       record[2],
+			Age:            age,
+			Experience:     experience,
+			ExpectedSalary: expectedSalary,
+		}
+		employees = append(employees, employee)
+	}
+
+	return employees, nil
+}
+
+func readJobs(filename string) ([]Job, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = -1
+	records, err := reader.ReadAll()
+	if err != nil {
+		return nil, err
+	}
+
+	var jobs []Job
+	for _, record := range records[1:] {
+		experience, _ := strconv.Atoi(record[3])
+		budget, _ := strconv.Atoi(record[4])
+		vacancies, _ := strconv.Atoi(record[5])
+		job := Job{
+			ID:         record[0],
+			Skills:     strings.Split(record[1], ","),
+			Location:   record[2],
+			Experience: experience,
+			Budget:     budget,
+			Vacancies:  vacancies,
+		}
+		jobs = append(jobs, job)
+	}
+
+	return jobs, nil
+}
+
+func main() {
+	employees, err := readEmployees("employees.csv")
+	if err != nil {
+		fmt.Println("Error reading employees:", err)
+		return
+	}
+
+	jobs, err := readJobs("jobs.csv")
+	if err != nil {
+		fmt.Println("Error reading jobs:", err)
+		return
+	}
 
 	matches := GaleShapley(employees, jobs)
 
