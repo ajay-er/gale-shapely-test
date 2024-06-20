@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/csv"
-	"gale-shapely/models"
+	"gale-shapley/models"
 	"os"
 	"sort"
 	"strconv"

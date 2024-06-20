@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"gale-shapely/handler"
-	"gale-shapely/models"
+	"gale-shapley/handler"
+	"gale-shapley/models"
 )
 
 
