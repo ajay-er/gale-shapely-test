@@ -1,4 +1,5 @@
 package models
+
 // Employee struct represents an employee
 type Employee struct {
 	ID             string
@@ -23,4 +24,5 @@ type Job struct {
 type Match struct {
 	EmployeeID string
 	Score      float64
+	Skills     []string
 }

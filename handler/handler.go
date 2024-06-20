@@ -87,6 +87,7 @@ func GaleShapley(employees []models.Employee, jobs []models.Job) map[string][]mo
 			preferences = append(preferences, models.Match{
 				EmployeeID: employee.ID,
 				Score:      CalculateScore(employee, job),
+				Skills: employee.Skills,
 			})
 		}
 		sort.Slice(preferences, func(i, j int) bool {
@@ -131,6 +132,7 @@ func GaleShapley(employees []models.Employee, jobs []models.Job) map[string][]mo
 
 	return jobMatches
 }
+
 // CalculateScore calculates the score for an employee-job pair
 func CalculateScore(employee models.Employee, job models.Job) float64 {
 	score := 0.0
@@ -164,6 +166,7 @@ func CalculateScore(employee models.Employee, job models.Job) float64 {
 
 	return score
 }
+
 // Function to find intersection of two slices
 func intersect(slice1, slice2 []string) []string {
 	m := make(map[string]bool)
